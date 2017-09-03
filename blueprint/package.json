@@ -2,9 +2,5 @@
   "name": "static-site",
   "version": "0.0.1",
   "description": "Static site",
-  "dependencies": {
-    "bootstrap": "^3.3.7",
-    "font-awesome": "^4.6.3",
-    "jquery": "^3.1.0"
-  }
+  "dependencies": {}
 }
