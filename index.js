@@ -8,6 +8,23 @@ const webpack = require('webpack');
 const pjson = require('./package.json');
 const config = require('./webpack.config');
 
+const logger = (err, stats) => {
+  console.log(stats.toString({
+    assets: true,
+    chunks: false,
+    modules: false,
+    colors: true,
+    performance: true,
+    timings: true,
+    version: true,
+    warnings: true
+  }));
+};
+
+const exit = () => {
+  process.exit(1);
+};
+
 const compiler = () => {
   const viewsDir = path.resolve(process.cwd(), 'src/views');
   const buildDir = path.resolve(process.cwd(), 'build');
@@ -19,13 +36,13 @@ const compiler = () => {
       if (err) {
         console.error('Could not list the directory', err);
         reject(err);
+      } else {
+        const views = files.filter(file => (
+          fs.lstatSync(path.resolve(viewsDir, file)).isFile()
+        ));
+
+        resolve(webpack(config(views)));
       }
-
-      const views = files.filter(file => (
-        fs.lstatSync(path.resolve(viewsDir, file)).isFile()
-      ));
-
-      resolve(webpack(config(views)));
     });
   });
 };
@@ -44,8 +61,8 @@ program
   .command('build')
   .action(() => {
     compiler()
-      .then(c => c.run())
-      .catch(() => process.exit(1));
+      .then(c => c.run(logger))
+      .catch(exit);
   });
 
 program
@@ -68,24 +85,16 @@ program
   .action(() => {
     compiler()
       .then(c => {
-        c.watch({
-          aggregateTimeout: 300,
-          poll: true,
-          ignored: /node_modules/
-        }, function(err, stats) {
-          console.log(stats.toString({
-            assets: true,
-            chunks: false,
-            modules: false,
-            colors: true,
-            performance: true,
-            timings: true,
-            version: true,
-            warnings: true
-          }));
-        });
+        c.watch(
+          {
+            aggregateTimeout: 300,
+            poll: true,
+            ignored: /node_modules/
+          },
+          logger
+        );
       })
-      .catch(() => process.exit(1));
+      .catch(exit);
   });
 
 program.parse(process.argv);
