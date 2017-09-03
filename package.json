@@ -21,7 +21,6 @@
     "browser-sync-webpack-plugin": "^1.1.2",
     "commander": "^2.11.0",
     "copy-webpack-plugin": "^4.0.1",
-    "css-loader": "^0.28.5",
     "eslint": "^4.6.0",
     "eslint-config-fs": "^0.2.11",
     "file-loader": "^0.11.2",
@@ -36,9 +35,9 @@
     "pug-html-loader": "^1.1.5",
     "shelljs": "^0.7.8",
     "style-loader": "^0.18.2",
+    "stylefmt": "^6.0.0",
     "stylelint": "^8.0.0",
     "stylelint-config-fs": "^0.5.0",
-    "url-loader": "^0.5.7",
     "webpack": "^3.5.5"
   }
 }
