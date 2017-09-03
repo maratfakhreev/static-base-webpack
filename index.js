@@ -1,19 +1,14 @@
 'use strict';
 
-const fs = require('fs');
 const shell = require('shelljs');
 const path = require('path');
 const webpack = require('webpack');
 const config = require('./webpack.config');
 
-const exit = () => {
-  process.exit(1);
-};
-
 const logger = (err, stats) => {
   if (err) {
     console.log(err);
-    exit();
+    process.exit(1);
   }
 
   console.log(stats.toString({
@@ -28,37 +23,30 @@ const logger = (err, stats) => {
   }));
 };
 
-const compiler = () => {
-  const viewsDir = path.resolve(process.cwd(), 'src/views');
-  const buildDir = path.resolve(process.cwd(), 'build');
-
-  return new Promise((resolve, reject) => {
-    shell.rm('-rf', buildDir);
-
-    fs.readdir(viewsDir, (err, files) => {
-      if (err) {
-        console.error('Could not list the directory', err);
-        reject(err);
-      } else {
-        const views = files.filter(file => (
-          fs.lstatSync(path.resolve(viewsDir, file)).isFile()
-        ));
-
-        resolve(webpack(config(views)));
-      }
-    });
-  });
-};
-
 const init = () => {
   shell.cp('-R', path.resolve(__dirname, './blueprint/.*'), process.cwd());
   shell.cp('-R', path.resolve(__dirname, './blueprint/*'), process.cwd());
 };
 
+const clean = () => {
+  shell.rm('-rf', path.resolve(process.cwd(), 'build'));
+};
+
 const build = () => {
-  compiler()
-    .then(c => c.run(logger))
-    .catch(exit);
+  clean();
+  webpack(config).run(logger);
+};
+
+const serve = () => {
+  clean();
+  webpack(config).watch(
+    {
+      aggregateTimeout: 300,
+      poll: true,
+      ignored: /node_modules/
+    },
+    logger
+  );
 };
 
 const lint = () => {
@@ -73,7 +61,7 @@ const lint = () => {
   shell.exec(`${stylelintExec} && ${eslintExec}`).stdout;
 };
 
-const lintFix = () => {
+const fix = () => {
   const eslintBin = path.resolve(__dirname, 'node_modules/eslint/bin/eslint.js');
   const eslintConfig = path.resolve(__dirname, '.eslintrc');
   const stylefmtBin = path.resolve(__dirname, 'node_modules/stylefmt/bin/cli.js');
@@ -85,25 +73,11 @@ const lintFix = () => {
   shell.exec(`${stylefmtFixExec} && ${eslintFixExec}`).stdout;
 };
 
-const serve = () => {
-  compiler()
-    .then(c => {
-      c.watch(
-        {
-          aggregateTimeout: 300,
-          poll: true,
-          ignored: /node_modules/
-        },
-        logger
-      );
-    })
-    .catch(exit);
-};
-
 module.exports = {
   init,
+  clean,
   build,
   serve,
   lint,
-  lintFix
+  fix
 };
