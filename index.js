@@ -67,11 +67,22 @@ const lint = () => {
   const stylelintBin = path.resolve(__dirname, 'node_modules/stylelint/bin/stylelint.js');
   const stylelintConfig = path.resolve(__dirname, '.stylelintrc');
   const sourcesPath = path.resolve(process.cwd(), 'src');
-  const stylelintSourcesPath = `${sourcesPath}/**/*.css ${sourcesPath}/**/*.pcss`;
-  const eslintExec = `${eslintBin} --config=${eslintConfig} ${sourcesPath}`;
-  const stylelintExec = `${stylelintBin} --config=${stylelintConfig} ${stylelintSourcesPath}`;
+  const eslintExec = `${eslintBin} --config=${eslintConfig} '${sourcesPath}'`;
+  const stylelintExec = `${stylelintBin} --config=${stylelintConfig} '${sourcesPath}/**/*.css'`;
 
   shell.exec(`${stylelintExec} && ${eslintExec}`).stdout;
+};
+
+const lintFix = () => {
+  const eslintBin = path.resolve(__dirname, 'node_modules/eslint/bin/eslint.js');
+  const eslintConfig = path.resolve(__dirname, '.eslintrc');
+  const stylefmtBin = path.resolve(__dirname, 'node_modules/stylefmt/bin/cli.js');
+  const stylelintConfig = path.resolve(__dirname, '.stylelintrc');
+  const sourcesPath = path.resolve(process.cwd(), 'src');
+  const eslintFixExec = `${eslintBin} --config=${eslintConfig} '${sourcesPath}' --fix`;
+  const stylefmtFixExec = `${stylefmtBin} --config=${stylelintConfig} --recursive '${sourcesPath}/**/*.css'`;
+
+  shell.exec(`${stylefmtFixExec} && ${eslintFixExec}`).stdout;
 };
 
 const serve = () => {
@@ -93,5 +104,6 @@ module.exports = {
   init,
   build,
   serve,
-  lint
+  lint,
+  lintFix
 };

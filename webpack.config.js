@@ -16,8 +16,7 @@ module.exports = files => {
     resolve: {
       modules: [
         path.resolve(process.cwd(), 'src')
-      ],
-      extensions: ['.js', '.css', '.pcss', '.pug']
+      ]
     },
     resolveLoader: {
       modules: [
@@ -68,13 +67,6 @@ module.exports = files => {
           test: /\.css$/,
           use: [
             'style-loader',
-            {
-              loader: 'css-loader',
-              query: {
-                modules: true,
-                importLoaders: 1
-              }
-            },
             {
               loader: 'postcss-loader',
               options: {
