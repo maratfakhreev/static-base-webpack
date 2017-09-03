@@ -33,7 +33,10 @@ module.exports = files => {
       ...htmlWebpackPlugins,
       new BrowserSyncPlugin({
         server: {
-          baseDir: [path.resolve(process.cwd(), 'build')]
+          baseDir: [path.resolve(process.cwd(), 'build')],
+          serveStaticOptions: {
+            extensions: ['html']
+          }
         },
         port: 3000,
         host: 'localhost',
