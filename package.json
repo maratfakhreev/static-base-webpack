@@ -2,15 +2,15 @@
   "name": "static-base-webpack",
   "version": "0.0.1",
   "description": "Static website boilerplate using webpack",
+  "license": "MIT",
   "author": "Marat Fakhreev",
   "main": "index.js",
   "scripts": {
     "test": "eslint ."
   },
   "bin": {
-    "sb": "./index.js"
+    "sb": "./bin/sbw.js"
   },
-  "license": "MIT",
   "dependencies": {
     "autoprefixer": "^7.1.2",
     "babel-core": "^6.26.0",
