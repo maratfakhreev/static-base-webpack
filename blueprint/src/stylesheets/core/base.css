@@ -1,0 +1,19 @@
+*,
+*::before,
+*::after {
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  user-select: none;
+  box-sizing: border-box;
+}
+
+:root {
+  font-size: 16px;
+}
+
+html,
+body {
+  position: relative;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
