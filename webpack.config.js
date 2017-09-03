@@ -42,10 +42,13 @@ module.exports = files => {
       }),
       new CopyWebpackPlugin([
         {
-          from: './src/robots.txt'
+          context: 'src/assets/',
+          from: '**/*',
+          to: './assets'
         },
         {
-          from: './src/assets/**/*',
+          context: 'src/',
+          from: '*.*',
           to: './'
         }
       ])
@@ -62,7 +65,7 @@ module.exports = files => {
           use: ['pug-loader']
         },
         {
-          test: /\.(p)css$/,
+          test: /\.css$/,
           use: [
             'style-loader',
             {

@@ -6,7 +6,16 @@ const path = require('path');
 const webpack = require('webpack');
 const config = require('./webpack.config');
 
+const exit = () => {
+  process.exit(1);
+};
+
 const logger = (err, stats) => {
+  if (err) {
+    console.log(err);
+    exit();
+  }
+
   console.log(stats.toString({
     assets: true,
     chunks: false,
@@ -17,10 +26,6 @@ const logger = (err, stats) => {
     version: true,
     warnings: true
   }));
-};
-
-const exit = () => {
-  process.exit(1);
 };
 
 const compiler = () => {
