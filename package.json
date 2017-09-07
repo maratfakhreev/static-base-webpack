@@ -23,6 +23,7 @@
     "copy-webpack-plugin": "^4.0.1",
     "eslint": "^4.6.0",
     "eslint-config-fs": "^0.2.11",
+    "extract-text-webpack-plugin": "^3.0.0",
     "file-loader": "^0.11.2",
     "postcss-color-function": "^4.0.0",
     "postcss-extend": "^1.0.5",

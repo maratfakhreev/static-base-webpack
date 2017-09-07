@@ -1,6 +1,7 @@
 const path = require('path');
 const BrowserSyncPlugin = require('browser-sync-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 const appDir = path.resolve(process.cwd(), 'src');
 const buildDir = path.resolve(process.cwd(), 'build');
@@ -8,7 +9,8 @@ const buildDir = path.resolve(process.cwd(), 'build');
 module.exports = {
   resolve: {
     modules: [
-      appDir
+      appDir,
+      'node_modules'
     ]
   },
   resolveLoader: {
@@ -23,18 +25,16 @@ module.exports = {
     filename: 'application.js'
   },
   plugins: [
+    new ExtractTextPlugin('application.css'),
     new BrowserSyncPlugin({
+      port: 3000,
+      open: false,
       server: {
-        baseDir: [
-          buildDir
-        ],
+        baseDir: buildDir,
         serveStaticOptions: {
           extensions: ['html']
         }
-      },
-      port: 3000,
-      host: 'localhost',
-      open: false
+      }
     }),
     new CopyWebpackPlugin([
       {
@@ -78,17 +78,19 @@ module.exports = {
       },
       {
         test: /\.css$/,
-        use: [
-          'style-loader',
-          {
-            loader: 'postcss-loader',
-            options: {
-              config: {
-                path: path.resolve(__dirname, 'postcss.config.js')
+        use: ExtractTextPlugin.extract({
+          fallback: 'style-loader',
+          use: [
+            {
+              loader: 'postcss-loader',
+              options: {
+                config: {
+                  path: path.resolve(__dirname, 'postcss.config.js')
+                }
               }
             }
-          }
-        ]
+          ]
+        })
       },
       {
         test: /\.(jpg|png|ttf|eot|svg|woff2|woff)$/,

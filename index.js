@@ -23,11 +23,6 @@ const logger = (err, stats) => {
   }));
 };
 
-const init = () => {
-  shell.cp('-R', path.resolve(__dirname, './blueprint/.*'), process.cwd());
-  shell.cp('-R', path.resolve(__dirname, './blueprint/*'), process.cwd());
-};
-
 const clean = () => {
   shell.rm('-rf', path.resolve(process.cwd(), 'build'));
 };
@@ -49,6 +44,17 @@ const serve = () => {
   );
 };
 
+const init = () => {
+  shell.cp(
+    '-R',
+    [
+      path.resolve(__dirname, 'blueprint/*'),
+      path.resolve(__dirname, 'blueprint/.*')
+    ],
+    process.cwd()
+  );
+};
+
 const lint = () => {
   const eslintBin = path.resolve(__dirname, 'node_modules/eslint/bin/eslint.js');
   const eslintConfig = path.resolve(__dirname, '.eslintrc');
@@ -58,7 +64,7 @@ const lint = () => {
   const eslintExec = `${eslintBin} --config=${eslintConfig} '${sourcesPath}'`;
   const stylelintExec = `${stylelintBin} --config=${stylelintConfig} '${sourcesPath}/**/*.css'`;
 
-  shell.exec(`${stylelintExec} && ${eslintExec}`).stdout;
+  shell.exec(`${stylelintExec} && ${eslintExec} --color always`);
 };
 
 const fix = () => {
@@ -70,14 +76,14 @@ const fix = () => {
   const eslintFixExec = `${eslintBin} --config=${eslintConfig} '${sourcesPath}' --fix`;
   const stylefmtFixExec = `${stylefmtBin} --config=${stylelintConfig} --recursive '${sourcesPath}/**/*.css'`;
 
-  shell.exec(`${stylefmtFixExec} && ${eslintFixExec}`).stdout;
+  shell.exec(`${stylefmtFixExec} && ${eslintFixExec} --color always`);
 };
 
 module.exports = {
-  init,
   clean,
   build,
   serve,
+  init,
   lint,
   fix
 };
