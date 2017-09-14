@@ -4,6 +4,17 @@ const path = require('path');
 const shell = require('shelljs');
 const webpack = require('webpack');
 const config = require('./webpack.config');
+const mildCompile = require('webpack-mild-compile');
+
+// Utils
+
+const compiler = config => {
+  const compiler = webpack(config);
+
+  mildCompile(compiler);
+
+  return compiler;
+};
 
 const logger = (err, stats) => {
   if (err) {
@@ -23,18 +34,20 @@ const logger = (err, stats) => {
   }));
 };
 
+// Tasks
+
 const clean = () => {
   shell.rm('-rf', path.resolve(process.cwd(), 'build'));
 };
 
 const build = () => {
   clean();
-  webpack(config).run(logger);
+  compiler(config).run(logger);
 };
 
 const serve = () => {
   clean();
-  webpack(config).watch(
+  compiler(config).watch(
     {
       aggregateTimeout: 300,
       poll: true,
@@ -78,6 +91,8 @@ const fix = () => {
 
   shell.exec(`${stylefmtFixExec} && ${eslintFixExec} --color always`);
 };
+
+// CLI Commands
 
 module.exports = {
   clean,

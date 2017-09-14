@@ -6,10 +6,12 @@
   "author": "Marat Fakhreev",
   "main": "index.js",
   "scripts": {
-    "test": "eslint ."
+    "eslint": "eslint .",
+    "stylelint": "stylelint './blueprint/**/*.css'",
+    "test": "npm run eslint && npm run stylelint"
   },
   "bin": {
-    "sb": "./bin/sbw.js"
+    "sb": "./bin/cli.js"
   },
   "dependencies": {
     "autoprefixer": "^7.1.2",
@@ -39,6 +41,7 @@
     "stylefmt": "^6.0.0",
     "stylelint": "^8.0.0",
     "stylelint-config-fs": "^0.5.0",
-    "webpack": "^3.5.5"
+    "webpack": "^3.5.5",
+    "webpack-mild-compile": "^1.0.0"
   }
 }
