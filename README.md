@@ -1,5 +1,8 @@
 # Static Sites generator based on webpack
 
+[![Build Status](https://travis-ci.org/maratfakhreev/static-base-webpack.svg?branch=master)](https://travis-ci.org/maratfakhreev/static-base-webpack)
+[![Dependency Status](https://david-dm.org/maratfakhreev/static-base-webpack.svg)](https://david-dm.org/maratfakhreev/static-base-webpack)
+
 Kick-start your new static site application based on next technologies:
 - `pug` as template engine
 - `postcss` as stylesheets postprocessor
