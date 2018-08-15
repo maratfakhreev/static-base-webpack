@@ -7,22 +7,18 @@ const appDir = path.resolve(process.cwd(), 'src');
 const buildDir = path.resolve(process.cwd(), 'build');
 
 module.exports = {
+  mode: 'production',
+  entry: ['babel-polyfill', path.resolve(appDir, 'index.js')],
   resolve: {
-    modules: [
-      appDir,
-      'node_modules'
-    ]
+    modules: [appDir, 'node_modules'],
   },
   resolveLoader: {
-    modules: [
-      path.resolve(__dirname, 'node_modules')
-    ]
+    modules: [path.resolve(__dirname, 'node_modules')],
   },
-  entry: path.resolve(appDir, 'index.js'),
   output: {
     path: buildDir,
     publicPath: '/',
-    filename: 'application.js'
+    filename: 'application.js',
   },
   plugins: [
     new ExtractTextPlugin('application.css'),
@@ -32,31 +28,31 @@ module.exports = {
       server: {
         baseDir: buildDir,
         serveStaticOptions: {
-          extensions: ['html']
-        }
-      }
+          extensions: ['html'],
+        },
+      },
     }),
     new CopyWebpackPlugin([
       {
         context: 'src/assets/',
         from: '**/*',
-        to: './assets'
+        to: './assets',
       },
       {
         context: 'src/',
         from: '*.*',
-        to: './'
-      }
+        to: './',
+      },
     ], {
-      ignore: ['index.js']
-    })
+      ignore: ['index.js'],
+    }),
   ],
   module: {
     rules: [
       {
         test: /\.js$/,
         exclude: [/node_modules/],
-        use: ['babel-loader']
+        use: ['babel-loader'],
       },
       {
         test: /\.pug$/,
@@ -64,17 +60,17 @@ module.exports = {
           {
             loader: 'file-loader',
             options: {
-              name: '[name].html'
-            }
+              name: '[name].html',
+            },
           },
           {
             loader: 'pug-html-loader',
             options: {
               pretty: true,
-              exports: false
-            }
-          }
-        ]
+              exports: false,
+            },
+          },
+        ],
       },
       {
         test: /\.css$/,
@@ -85,17 +81,17 @@ module.exports = {
               loader: 'postcss-loader',
               options: {
                 config: {
-                  path: path.resolve(__dirname, 'postcss.config.js')
-                }
-              }
-            }
-          ]
-        })
+                  path: path.resolve(__dirname, 'postcss.config.js'),
+                },
+              },
+            },
+          ],
+        }),
       },
       {
         test: /\.(jpg|png|ttf|eot|svg|woff2|woff)$/,
-        use: ['file-loader']
-      }
-    ]
-  }
+        use: ['file-loader'],
+      },
+    ],
+  },
 };

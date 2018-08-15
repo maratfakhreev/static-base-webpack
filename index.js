@@ -1,14 +1,12 @@
-'use strict';
-
 const path = require('path');
 const shell = require('shelljs');
 const webpack = require('webpack');
-const config = require('./webpack.config');
 const mildCompile = require('webpack-mild-compile');
+const config = require('./webpack.config');
 
 // Utils
 
-const compiler = config => {
+const compiler = (config) => {
   const compiler = webpack(config);
 
   mildCompile(compiler);
@@ -17,6 +15,7 @@ const compiler = config => {
 };
 
 const logger = (err, stats) => {
+  /* eslint-disable no-console */
   if (err) {
     console.log(err);
     process.exit(1);
@@ -30,8 +29,9 @@ const logger = (err, stats) => {
     performance: true,
     timings: true,
     version: true,
-    warnings: true
+    warnings: true,
   }));
+  /* eslint-enable no-console */
 };
 
 // Tasks
@@ -51,9 +51,9 @@ const serve = () => {
     {
       aggregateTimeout: 300,
       poll: true,
-      ignored: /node_modules/
+      ignored: /node_modules/,
     },
-    logger
+    logger,
   );
 };
 
@@ -62,9 +62,9 @@ const init = () => {
     '-R',
     [
       path.resolve(__dirname, 'blueprint/*'),
-      path.resolve(__dirname, 'blueprint/.*')
+      path.resolve(__dirname, 'blueprint/.*'),
     ],
-    process.cwd()
+    process.cwd(),
   );
 };
 
@@ -83,13 +83,10 @@ const lint = () => {
 const fix = () => {
   const eslintBin = path.resolve(__dirname, 'node_modules/eslint/bin/eslint.js');
   const eslintConfig = path.resolve(__dirname, '.eslintrc');
-  const stylefmtBin = path.resolve(__dirname, 'node_modules/stylefmt/bin/cli.js');
-  const stylelintConfig = path.resolve(__dirname, '.stylelintrc');
   const sourcesPath = path.resolve(process.cwd(), 'src');
   const eslintFixExec = `${eslintBin} --config=${eslintConfig} '${sourcesPath}' --fix`;
-  const stylefmtFixExec = `${stylefmtBin} --config=${stylelintConfig} --recursive '${sourcesPath}/**/*.css'`;
 
-  shell.exec(`${stylefmtFixExec} && ${eslintFixExec} --color always`);
+  shell.exec(`${eslintFixExec} --color always`);
 };
 
 // CLI Commands
@@ -100,5 +97,5 @@ module.exports = {
   serve,
   init,
   lint,
-  fix
+  fix,
 };
