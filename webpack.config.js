@@ -8,7 +8,8 @@ const buildDir = path.resolve(process.cwd(), 'build');
 
 module.exports = {
   mode: 'production',
-  entry: ['babel-polyfill', path.resolve(appDir, 'index.js')],
+  entry: [path.resolve(appDir, 'index.js')],
+  context: appDir,
   resolve: {
     modules: [appDir, 'node_modules'],
   },

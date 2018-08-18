@@ -1,18 +1,7 @@
 const path = require('path');
 const shell = require('shelljs');
 const webpack = require('webpack');
-const mildCompile = require('webpack-mild-compile');
 const config = require('./webpack.config');
-
-// Utils
-
-const compiler = (config) => {
-  const compiler = webpack(config);
-
-  mildCompile(compiler);
-
-  return compiler;
-};
 
 const logger = (err, stats) => {
   /* eslint-disable no-console */
@@ -42,12 +31,12 @@ const clean = () => {
 
 const build = () => {
   clean();
-  compiler(config).run(logger);
+  webpack(config).run(logger);
 };
 
 const serve = () => {
   clean();
-  compiler(config).watch(
+  webpack(config).watch(
     {
       aggregateTimeout: 300,
       poll: true,
