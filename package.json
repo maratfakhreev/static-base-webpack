@@ -7,7 +7,7 @@
   "main": "index.js",
   "scripts": {
     "eslint": "eslint .",
-    "stylelint": "stylelint './blueprint/**/*.css'",
+    "stylelint": "stylelint './blueprint/**/*.{css,pcss}'",
     "test": "npm run eslint && npm run stylelint"
   },
   "bin": {
@@ -42,6 +42,7 @@
     "shelljs": "^0.8.2",
     "style-loader": "^0.22.1",
     "stylelint": "^9.4.0",
+    "stylelint-order": "^1.0.0",
     "webpack": "^4.16.5",
     "webpack-mild-compile": "^3.2.0"
   }
