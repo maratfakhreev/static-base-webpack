@@ -7,7 +7,7 @@
   "main": "index.js",
   "scripts": {
     "eslint": "eslint .",
-    "stylelint": "stylelint './blueprint/**/*.{css,pcss}'",
+    "stylelint": "stylelint './blueprint/**/*.css'",
     "test": "npm run eslint && npm run stylelint"
   },
   "bin": {

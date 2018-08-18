@@ -69,24 +69,31 @@ const init = () => {
 };
 
 const lint = () => {
+  const sourcesPath = path.resolve(process.cwd(), 'src');
+
   const eslintBin = path.resolve(__dirname, 'node_modules/eslint/bin/eslint.js');
   const eslintConfig = path.resolve(__dirname, '.eslintrc');
+  const eslintExec = `${eslintBin} --config=${eslintConfig} '${sourcesPath}'`;
+
   const stylelintBin = path.resolve(__dirname, 'node_modules/stylelint/bin/stylelint.js');
   const stylelintConfig = path.resolve(__dirname, '.stylelintrc');
-  const sourcesPath = path.resolve(process.cwd(), 'src');
-  const eslintExec = `${eslintBin} --config=${eslintConfig} '${sourcesPath}'`;
   const stylelintExec = `${stylelintBin} --config=${stylelintConfig} '${sourcesPath}/**/*.css'`;
 
   shell.exec(`${stylelintExec} && ${eslintExec} --color always`);
 };
 
 const fix = () => {
+  const sourcesPath = path.resolve(process.cwd(), 'src');
+
   const eslintBin = path.resolve(__dirname, 'node_modules/eslint/bin/eslint.js');
   const eslintConfig = path.resolve(__dirname, '.eslintrc');
-  const sourcesPath = path.resolve(process.cwd(), 'src');
   const eslintFixExec = `${eslintBin} --config=${eslintConfig} '${sourcesPath}' --fix`;
 
-  shell.exec(`${eslintFixExec} --color always`);
+  const stylelintBin = path.resolve(__dirname, 'node_modules/stylelint/bin/stylelint.js');
+  const stylelintConfig = path.resolve(__dirname, '.stylelintrc');
+  const stylelintFixExec = `${stylelintBin} --config=${stylelintConfig} '${sourcesPath}/**/*.css' --fix`;
+
+  shell.exec(`${stylelintFixExec} && ${eslintFixExec} --color always`);
 };
 
 // CLI Commands
