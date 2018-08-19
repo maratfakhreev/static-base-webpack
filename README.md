@@ -5,7 +5,7 @@
 
 Kick-start your new static site application based on next technologies:
 - `pug` as template engine
-- `postcss/cssnext` as stylesheets postprocessor
+- `postcss/cssnext` as stylesheets processor
 - `babel` as javascript compiler
 - `webpack` as module bundler
 - `browsersync` as http server

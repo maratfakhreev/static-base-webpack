@@ -3,6 +3,8 @@ const shell = require('shelljs');
 const webpack = require('webpack');
 const config = require('./webpack.config');
 
+// Utils
+
 const logger = (err, stats) => {
   /* eslint-disable no-console */
   if (err) {
@@ -31,12 +33,12 @@ const clean = () => {
 
 const build = () => {
   clean();
-  webpack(config).run(logger);
+  webpack(config({ env: 'production' })).run(logger);
 };
 
 const serve = () => {
   clean();
-  webpack(config).watch(
+  webpack(config({ env: 'development' })).watch(
     {
       aggregateTimeout: 300,
       poll: true,
@@ -68,7 +70,7 @@ const lint = () => {
   const stylelintConfig = path.resolve(__dirname, '.stylelintrc');
   const stylelintExec = `${stylelintBin} --config=${stylelintConfig} '${sourcesPath}/**/*.css'`;
 
-  shell.exec(`${stylelintExec} && ${eslintExec} --color always`);
+  shell.exec(`${stylelintExec} && ${eslintExec}`);
 };
 
 const fix = () => {
@@ -82,7 +84,7 @@ const fix = () => {
   const stylelintConfig = path.resolve(__dirname, '.stylelintrc');
   const stylelintFixExec = `${stylelintBin} --config=${stylelintConfig} '${sourcesPath}/**/*.css' --fix`;
 
-  shell.exec(`${stylelintFixExec} && ${eslintFixExec} --color always`);
+  shell.exec(`${stylelintFixExec} && ${eslintFixExec}`);
 };
 
 // CLI Commands
