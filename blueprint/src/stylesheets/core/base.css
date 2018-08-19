@@ -1,7 +1,7 @@
 *,
 *::before,
 *::after {
-  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  font-family: system-ui;
   user-select: none;
   box-sizing: border-box;
 }

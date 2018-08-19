@@ -3,7 +3,7 @@
   align-items: center;
   justify-content: center;
   height: 50px;
-  border-top: 1px solid $grey-e7;
-  color: $grey-e7;
+  border-top: 1px solid var(--greyE7);
+  color: var(--greyE7);
   font-weight: 100;
 }
