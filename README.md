@@ -4,7 +4,7 @@
 [![Dependency Status](https://david-dm.org/maratfakhreev/static-base-webpack.svg)](https://david-dm.org/maratfakhreev/static-base-webpack)
 
 Kick-start your new static site application based on next technologies:
-- `pug` as template engine
+- `handlebars` as template engine
 - `postcss/cssnext` as stylesheets processor
 - `babel` as javascript compiler
 - `webpack` as module bundler
