@@ -4,6 +4,7 @@ const merge = require('webpack-merge');
 const BrowserSyncPlugin = require('browser-sync-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const HandlebarsPlugin = require('handlebars-webpack-plugin');
 
 const appDir = path.resolve(process.cwd(), 'src');
 const buildDir = path.resolve(process.cwd(), 'build');
@@ -39,6 +40,14 @@ module.exports = ({ env }) => {
           NODE_ENV: JSON.stringify(env),
         },
       }),
+      new HandlebarsPlugin({
+        entry: path.resolve(appDir, 'views', '*.hbs'),
+        output: path.resolve(buildDir, '[name].html'),
+        partials: [
+          path.resolve(appDir, 'views', 'components', '*', '*.hbs'),
+        ],
+        data: { appVersion },
+      }),
       new ExtractTextPlugin(`application.${appVersion}.css`),
       new CopyWebpackPlugin([
         {
@@ -63,23 +72,8 @@ module.exports = ({ env }) => {
           use: ['babel-loader'],
         },
         {
-          test: /\.pug$/,
-          use: [
-            {
-              loader: 'file-loader',
-              options: {
-                name: '[name].html',
-              },
-            },
-            {
-              loader: 'pug-html-loader',
-              options: {
-                pretty: true,
-                exports: false,
-                data: { appVersion },
-              },
-            },
-          ],
+          test: /\.hbs$/,
+          use: ['handlebars-loader'],
         },
         {
           test: /\.css$/,
