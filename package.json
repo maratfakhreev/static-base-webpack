@@ -1,6 +1,6 @@
 {
   "name": "static-base-webpack",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Static website boilerplate using webpack",
   "license": "MIT",
   "author": "Marat Fakhreev",
