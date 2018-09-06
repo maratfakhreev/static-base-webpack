@@ -51,17 +51,13 @@ module.exports = ({ env }) => {
       new ExtractTextPlugin(`application.${appVersion}.css`),
       new CopyWebpackPlugin([
         {
-          context: 'src/assets/',
+          context: appDir,
           from: '**/*',
-          to: './assets',
-        },
-        {
-          context: 'src/',
-          from: '*.*',
           to: './',
         },
       ], {
-        ignore: ['index.js'],
+        copyUnmodified: true,
+        ignore: ['*.js', '*.css', '*.hbs'],
       }),
     ],
     module: {
