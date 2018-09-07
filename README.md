@@ -39,3 +39,9 @@ sb build # build the project
 sb lint # lint project via stylelint and eslint
 sb fix # fix linter issues
 ```
+
+For `sb serve` you can also pass `PORT` and `NODE_ENV` params.
+
+```bash
+sb serve PORT=3000 NODE_ENV=production # default values are PORT=8000 NODE_ENV=development
+```

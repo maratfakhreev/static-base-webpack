@@ -25,6 +25,18 @@ const logger = (err, stats) => {
   /* eslint-enable no-console */
 };
 
+const prepareParams = (params) => {
+  const arr = [...params];
+
+  arr.pop();
+
+  return arr.reduce((acc, v) => {
+    const value = v.split('=');
+
+    return { ...acc, [value[0]]: value[1] };
+  }, {});
+};
+
 // Tasks
 
 const clean = () => {
@@ -32,13 +44,17 @@ const clean = () => {
 };
 
 const build = () => {
+  const params = { NODE_ENV: 'production' };
+
   clean();
-  webpack(config({ env: 'production' })).run(logger);
+  webpack(config(params)).run(logger);
 };
 
-const serve = () => {
+const serve = (...p) => {
+  const params = prepareParams(p);
+
   clean();
-  webpack(config({ env: 'development' })).watch(
+  webpack(config(params)).watch(
     {
       aggregateTimeout: 300,
       poll: true,

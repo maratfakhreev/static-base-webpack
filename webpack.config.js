@@ -18,9 +18,9 @@ try {
   appVersion = '0.0.1';
 }
 
-module.exports = ({ env }) => {
+module.exports = ({ PORT = 8000, NODE_ENV = 'development' }) => {
   const appConfig = {
-    mode: env || 'development',
+    mode: NODE_ENV || 'development',
     entry: [path.resolve(appDir, 'index.js')],
     context: appDir,
     resolve: {
@@ -37,7 +37,7 @@ module.exports = ({ env }) => {
     plugins: [
       new webpack.DefinePlugin({
         'process.env': {
-          NODE_ENV: JSON.stringify(env),
+          NODE_ENV: JSON.stringify(NODE_ENV),
         },
       }),
       new HandlebarsPlugin({
@@ -98,7 +98,7 @@ module.exports = ({ env }) => {
   const developmentConfig = {
     plugins: [
       new BrowserSyncPlugin({
-        port: 3000,
+        port: PORT,
         open: false,
         server: {
           baseDir: buildDir,
@@ -113,5 +113,10 @@ module.exports = ({ env }) => {
 
   const productionConfig = {};
 
-  return merge(appConfig, env === 'production' ? productionConfig : developmentConfig);
+  const configs = {
+    development: developmentConfig,
+    production: productionConfig,
+  };
+
+  return merge(appConfig, configs[NODE_ENV]);
 };
