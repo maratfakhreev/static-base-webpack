@@ -69,7 +69,14 @@ module.exports = ({ PORT = 8000, NODE_ENV = 'development' }) => {
         },
         {
           test: /\.hbs$/,
-          use: ['handlebars-loader'],
+          use: [
+            {
+              loader: 'handlebars-loader',
+              options: {
+                rootRelative: 'views/components/',
+              },
+            },
+          ],
         },
         {
           test: /\.css$/,
