@@ -9,6 +9,7 @@
   },
   "rules": {
     "import/imports-first": "error",
+    "import/no-unresolved": "off",
     "global-require": "off",
     "no-empty": [
       "error",
@@ -158,12 +159,6 @@
       }
     ],
     "class-methods-use-this": "error"
-  },
-  "settings": {
-    "import/resolver": {
-      "webpack": {},
-      "jest": {}
-    }
   },
   "globals": {
     "context": false
