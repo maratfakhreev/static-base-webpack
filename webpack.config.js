@@ -56,7 +56,6 @@ module.exports = ({ PORT = 8000, NODE_ENV = 'development' }) => {
           to: './',
         },
       ], {
-        copyUnmodified: true,
         ignore: ['*.js', '*.css', '*.hbs'],
       }),
     ],
@@ -65,33 +64,49 @@ module.exports = ({ PORT = 8000, NODE_ENV = 'development' }) => {
         {
           test: /\.js$/,
           exclude: [/node_modules/],
-          use: ['babel-loader'],
+          use: {
+            loader: 'babel-loader',
+            options: {
+              presets: [
+                [
+                  require('@babel/preset-env').default,
+                  {
+                    modules: false,
+                    targets: {
+                      browsers: [
+                        'last 2 versions',
+                      ],
+                    },
+                  },
+                ],
+              ],
+              plugins: [
+                require('@babel/plugin-proposal-class-properties').default,
+              ],
+            },
+          },
         },
         {
           test: /\.hbs$/,
-          use: [
-            {
-              loader: 'handlebars-loader',
-              options: {
-                rootRelative: 'views/components/',
-              },
+          use: {
+            loader: 'handlebars-loader',
+            options: {
+              rootRelative: 'views/components/',
             },
-          ],
+          },
         },
         {
           test: /\.css$/,
           use: ExtractTextPlugin.extract({
             fallback: 'style-loader',
-            use: [
-              {
-                loader: 'postcss-loader',
-                options: {
-                  config: {
-                    path: path.resolve(__dirname, 'postcss.config.js'),
-                  },
+            use: {
+              loader: 'postcss-loader',
+              options: {
+                config: {
+                  path: path.resolve(__dirname, 'postcss.config.js'),
                 },
               },
-            ],
+            },
           }),
         },
         {
