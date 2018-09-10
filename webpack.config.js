@@ -4,6 +4,7 @@ const merge = require('webpack-merge');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const HandlebarsPlugin = require('handlebars-webpack-plugin');
+const LiveReloadPlugin = require('webpack-livereload-plugin');
 
 const appDir = path.resolve(process.cwd(), 'src');
 const buildDir = path.resolve(process.cwd(), 'build');
@@ -45,7 +46,10 @@ module.exports = ({ NODE_ENV }) => {
         partials: [
           path.resolve(appDir, 'views', 'components', '*', '*.hbs'),
         ],
-        data: { appVersion },
+        data: {
+          appVersion,
+          dev: NODE_ENV === 'development',
+        },
       }),
       new ExtractTextPlugin(`application.${appVersion}.css`),
       new CopyWebpackPlugin([
@@ -118,6 +122,9 @@ module.exports = ({ NODE_ENV }) => {
 
   const developmentConfig = {
     devtool: 'source-map',
+    plugins: [
+      new LiveReloadPlugin(),
+    ],
   };
 
   const productionConfig = {};

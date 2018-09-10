@@ -12,5 +12,8 @@
     {{> @partial-block }}
     {{> partials/footer }}
     <script src="/application.{{appVersion}}.js"></script>
+    {{#if dev}}
+      <script src="http://localhost:35729/livereload.js"></script>
+    {{/if}}
   </body>
 </html>
