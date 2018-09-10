@@ -20,7 +20,6 @@
     "babel-eslint": "^8.2.3",
     "babel-loader": "^8.0.0",
     "browser-sync": "^2.24.6",
-    "browser-sync-webpack-plugin": "^2.2.2",
     "commander": "^2.17.1",
     "copy-webpack-plugin": "^4.5.2",
     "eslint": "^5.3.0",
@@ -28,6 +27,7 @@
     "eslint-config-prettier": "^3.0.1",
     "eslint-plugin-import": "^2.12.0",
     "eslint-plugin-prettier": "^2.6.0",
+    "express": "^4.16.3",
     "extract-text-webpack-plugin": "^4.0.0-beta.0",
     "file-loader": "^1.1.11",
     "handlebars-loader": "^1.7.0",
@@ -44,6 +44,7 @@
     "stylelint": "^9.4.0",
     "stylelint-order": "^1.0.0",
     "webpack": "^4.16.5",
+    "webpack-dev-middleware": "^3.2.0",
     "webpack-merge": "^4.1.4",
     "webpack-mild-compile": "^3.2.0"
   }

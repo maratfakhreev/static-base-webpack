@@ -1,7 +1,9 @@
 const path = require('path');
 const shell = require('shelljs');
+const express = require('express');
 const webpack = require('webpack');
-const config = require('./webpack.config');
+const middleware = require('webpack-dev-middleware');
+const webpackConfig = require('./webpack.config');
 
 // Utils
 
@@ -44,24 +46,39 @@ const clean = () => {
 };
 
 const build = () => {
-  const params = { NODE_ENV: 'production' };
+  const config = webpackConfig({ NODE_ENV: 'production' });
 
   clean();
-  webpack(config(params)).run(logger);
+  webpack(config).run(logger);
 };
 
 const serve = (...p) => {
-  const params = prepareParams(p);
-
-  clean();
-  webpack(config(params)).watch(
-    {
+  const { NODE_ENV = 'development', PORT = 8000 } = prepareParams(p);
+  const app = express();
+  const config = webpackConfig({ NODE_ENV });
+  const webpackOptions = {
+    stats: {
+      assets: true,
+      chunks: false,
+      modules: false,
+      colors: true,
+      performance: true,
+      timings: true,
+      version: true,
+      warnings: true,
+    },
+    watchOptions: {
       aggregateTimeout: 300,
       poll: true,
       ignored: /node_modules/,
     },
-    logger,
-  );
+    publicPath: config.output.publicPath,
+  };
+
+  app.use(middleware(webpack(config), webpackOptions));
+  app.listen(PORT, 'localhost', () => {
+    console.log(`App listening on port ${PORT}`); // eslint-disable-line no-console
+  });
 };
 
 const init = () => {

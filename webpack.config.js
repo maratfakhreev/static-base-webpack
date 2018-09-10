@@ -1,7 +1,6 @@
 const path = require('path');
 const webpack = require('webpack');
 const merge = require('webpack-merge');
-const BrowserSyncPlugin = require('browser-sync-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const HandlebarsPlugin = require('handlebars-webpack-plugin');
@@ -18,9 +17,9 @@ try {
   appVersion = '0.0.1';
 }
 
-module.exports = ({ PORT = 8000, NODE_ENV = 'development' }) => {
+module.exports = ({ NODE_ENV }) => {
   const appConfig = {
-    mode: NODE_ENV || 'development',
+    mode: NODE_ENV,
     entry: [path.resolve(appDir, 'index.js')],
     context: appDir,
     resolve: {
@@ -118,18 +117,6 @@ module.exports = ({ PORT = 8000, NODE_ENV = 'development' }) => {
   };
 
   const developmentConfig = {
-    plugins: [
-      new BrowserSyncPlugin({
-        port: PORT,
-        open: false,
-        server: {
-          baseDir: buildDir,
-          serveStaticOptions: {
-            extensions: ['html'],
-          },
-        },
-      }),
-    ],
     devtool: 'source-map',
   };
 
