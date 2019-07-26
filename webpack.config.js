@@ -43,7 +43,9 @@ module.exports = ({ NODE_ENV }) => {
       new HandlebarsPlugin({
         entry: path.resolve(appDir, 'views', '**', '*.hbs'),
         output: path.resolve(buildDir, '[name].html'),
-        partials: path.resolve(appDir, 'views', 'components', '**', '*.hbs'),
+        partials: [
+          path.resolve(appDir, 'views', 'components', '**', '*.hbs'),
+        ],
         data: {
           appVersion,
           dev: NODE_ENV === 'development',
