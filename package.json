@@ -31,7 +31,7 @@
     "extract-text-webpack-plugin": "^4.0.0-beta.0",
     "file-loader": "^1.1.11",
     "handlebars-loader": "^1.7.0",
-    "handlebars-webpack-plugin": "git://github.com/maratfakhreev/handlebars-webpack-plugin.git#add-folders-support",
+    "handlebars-webpack-plugin": "https://github.com/maratfakhreev/handlebars-webpack-plugin.git#add-folders-support",
     "postcss": "^7.0.2",
     "postcss-import": "^12.0.0",
     "postcss-loader": "^3.0.0",
