@@ -1,10 +1,10 @@
 const path = require('path');
 const webpack = require('webpack');
 const merge = require('webpack-merge');
-const BrowserSyncPlugin = require('browser-sync-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const HandlebarsPlugin = require('handlebars-webpack-plugin');
+const LiveReloadPlugin = require('webpack-livereload-plugin');
 
 const appDir = path.resolve(process.cwd(), 'src');
 const buildDir = path.resolve(process.cwd(), 'build');
@@ -18,9 +18,9 @@ try {
   appVersion = '0.0.1';
 }
 
-module.exports = ({ PORT = 8000, NODE_ENV = 'development' }) => {
+module.exports = ({ NODE_ENV }) => {
   const appConfig = {
-    mode: NODE_ENV || 'development',
+    mode: NODE_ENV,
     entry: [path.resolve(appDir, 'index.js')],
     context: appDir,
     resolve: {
@@ -41,12 +41,15 @@ module.exports = ({ PORT = 8000, NODE_ENV = 'development' }) => {
         },
       }),
       new HandlebarsPlugin({
-        entry: path.resolve(appDir, 'views', '*.hbs'),
+        entry: path.resolve(appDir, 'views', '**', '*.hbs'),
         output: path.resolve(buildDir, '[name].html'),
         partials: [
-          path.resolve(appDir, 'views', 'components', '*', '*.hbs'),
+          path.resolve(appDir, 'views', 'components', '**', '*.hbs'),
         ],
-        data: { appVersion },
+        data: {
+          appVersion,
+          dev: NODE_ENV === 'development',
+        },
       }),
       new ExtractTextPlugin(`application.${appVersion}.css`),
       new CopyWebpackPlugin([
@@ -87,15 +90,6 @@ module.exports = ({ PORT = 8000, NODE_ENV = 'development' }) => {
           },
         },
         {
-          test: /\.hbs$/,
-          use: {
-            loader: 'handlebars-loader',
-            options: {
-              rootRelative: 'views/components/',
-            },
-          },
-        },
-        {
           test: /\.css$/,
           use: ExtractTextPlugin.extract({
             fallback: 'style-loader',
@@ -118,19 +112,10 @@ module.exports = ({ PORT = 8000, NODE_ENV = 'development' }) => {
   };
 
   const developmentConfig = {
-    plugins: [
-      new BrowserSyncPlugin({
-        port: PORT,
-        open: false,
-        server: {
-          baseDir: buildDir,
-          serveStaticOptions: {
-            extensions: ['html'],
-          },
-        },
-      }),
-    ],
     devtool: 'source-map',
+    plugins: [
+      new LiveReloadPlugin(),
+    ],
   };
 
   const productionConfig = {};
