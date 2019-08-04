@@ -90,15 +90,6 @@ module.exports = ({ NODE_ENV }) => {
           },
         },
         {
-          test: /\.hbs$/,
-          use: {
-            loader: 'handlebars-loader',
-            options: {
-              rootRelative: 'views/components/',
-            },
-          },
-        },
-        {
           test: /\.css$/,
           use: ExtractTextPlugin.extract({
             fallback: 'style-loader',
