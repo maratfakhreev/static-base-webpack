@@ -42,7 +42,7 @@ module.exports = ({ NODE_ENV }) => {
       }),
       new HandlebarsPlugin({
         entry: path.resolve(appDir, 'views', '**', '*.hbs'),
-        output: path.resolve(buildDir, '[name].html'),
+        output: path.resolve(buildDir, '[path]', '[name].html'),
         partials: [
           path.resolve(appDir, 'views', 'components', '**', '*.hbs'),
         ],
