@@ -40,7 +40,7 @@
     "style-loader": "^0.23.1",
     "stylelint": "^10.1.0",
     "stylelint-order": "^3.0.1",
-    "webpack": "^4.38.0",
+    "webpack": "^4.46.0",
     "webpack-dev-middleware": "^3.7.0",
     "webpack-livereload-plugin": "^2.2.0",
     "webpack-merge": "^4.2.1",
